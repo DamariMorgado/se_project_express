@@ -15,7 +15,7 @@ app.use(express.json());
 // Temporary hardcoded auth — replace _id with your test user's _id from MongoDB
 app.use((req, res, next) => {
   req.user = {
-    _id: "5d8b8592978f8bd833ca8133",
+    _id: "69d8a708caafcabb5b9b856f",
   };
   next();
 });
