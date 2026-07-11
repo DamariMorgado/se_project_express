@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const mainRouter = require("./routes/index");
 
 const { PORT = 3001 } = process.env;
@@ -10,15 +11,8 @@ mongoose
   .then(() => console.error("Connected to DB"))
   .catch((err) => console.error("DB connection error:", err));
 
+app.use(cors());
 app.use(express.json());
-
-// Temporary hardcoded auth — replace _id with your test user's _id from MongoDB
-app.use((req, res, next) => {
-  req.user = {
-    _id: "69d8a708caafcabb5b9b856f",
-  };
-  next();
-});
 
 app.use("/", mainRouter);
 

@@ -1,6 +1,7 @@
 const ClothingItem = require("../models/clothingItem");
 const {
   BAD_REQUEST,
+  FORBIDDEN,
   NOT_FOUND,
   INTERNAL_SERVER_ERROR,
   CREATED,
@@ -38,9 +39,18 @@ const createItem = (req, res) => {
 const deleteItem = (req, res) => {
   const { id } = req.params;
 
-  ClothingItem.findByIdAndDelete(id)
+  ClothingItem.findById(id)
     .orFail()
-    .then((item) => res.status(OK).send(item))
+    .then((item) => {
+      if (item.owner.toString() !== req.user._id) {
+        return res
+          .status(FORBIDDEN)
+          .send({ message: "You cannot delete another user's item" });
+      }
+      return ClothingItem.findByIdAndDelete(id).then((deletedItem) =>
+        res.status(OK).send(deletedItem),
+      );
+    })
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
