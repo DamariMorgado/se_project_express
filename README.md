@@ -32,49 +32,22 @@ The server connects to MongoDB at `mongodb://127.0.0.1:27017/wtwr_db` by default
 
 ## API Endpoints
 
-### Users
+### Users and Authentication
 
-| Method | Endpoint       | Description          |
-| ------ | -------------- | -------------------- |
-| GET    | /users         | Returns all users    |
-| GET    | /users/:userId | Returns a user by ID |
-| POST   | /users         | Creates a new user   |
+| Method | Endpoint  | Description                              |
+| ------ | --------- | ---------------------------------------- |
+| POST   | /signup   | Creates a new user                       |
+| POST   | /signin   | Logs in a user and returns a token       |
+| GET    | /users/me | Returns the currently authenticated user |
+| PATCH  | /users/me | Updates the current user's profile       |
 
-**Example POST /users request body:**
+**Example POST /signup request body:**
 
 ```json
 {
   "name": "John Doe",
-  "avatar": "https://example.com/avatar.jpg"
+  "avatar": "https://example.com/avatar.jpg",
+  "email": "john@example.com",
+  "password": "password123"
 }
 ```
-
-### Clothing Items
-
-| Method | Endpoint         | Description                   |
-| ------ | ---------------- | ----------------------------- |
-| GET    | /items           | Returns all clothing items    |
-| POST   | /items           | Creates a new clothing item   |
-| DELETE | /items/:id       | Deletes a clothing item by ID |
-| PUT    | /items/:id/likes | Likes a clothing item         |
-| DELETE | /items/:id/likes | Unlikes a clothing item       |
-
-**Example POST /items request body:**
-
-```json
-{
-  "name": "Winter Jacket",
-  "weather": "cold",
-  "imageUrl": "https://example.com/jacket.jpg"
-}
-```
-
-## Error Codes
-
-- `400` — invalid data or invalid ID passed in the request
-- `404` — requested resource not found
-- `500` — internal server error
-
-### Testing
-
-Before committing your code, make sure you edit the file `sprint.txt` in the root folder. The file `sprint.txt` should contain the number of the sprint you're currently working on. For ex. 12
